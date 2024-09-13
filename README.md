@@ -28,7 +28,7 @@ npm install coinspot-api-v2
 First, import the CoinSpot API:
 
 ```typescript
-import { createCoinspotApi } from 'coinspot-api-v2';
+import { createCoinspotApi } from 'coinspot-v2-api';
 ```
 
 ### Public API
@@ -64,7 +64,7 @@ const order = await api.authenticated.placeMarketBuyOrder('BTC', 0.1, 50000);
 This is probably the one you want to start with, see also [the demo](./examples/demo.ts).
 
 ```typescript
-import { Coinspot } from 'coinspot-api-v2';
+import { Coinspot } from 'coinspot-v2-api';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -227,4 +227,4 @@ like C#.NET, Java, Go, Python or high-performance C++, give me a yell.  I accept
 ### Project Links
 
 [Github](https://github.com/jamesbuch/coinspot-api-v2)
-[Coinspot APIv2 on NPM](https://npmjs.com/coinspot-api-v2)
+[Coinspot APIv2 on NPM](https://www.npmjs.com/package/coinspot-v2-api)

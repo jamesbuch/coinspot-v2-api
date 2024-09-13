@@ -1,4 +1,4 @@
-import { Coinspot } from '../src';
+import { Coinspot } from '../index';
 import dotenv from 'dotenv';
 dotenv.config();
 
