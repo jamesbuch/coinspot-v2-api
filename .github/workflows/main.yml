@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build --if-present
+
+    - name: Run tests with coverage
+      run: npm test -- --coverage
+      env:
+        COINSPOT_API_KEY: ${{ secrets.COINSPOT_API_KEY }}
+        COINSPOT_API_SECRET: ${{ secrets.COINSPOT_API_SECRET }}
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage/
+
+    - name: Run tests with JUnit reporter
+      run: npm test -- --ci --reporters=default --reporters=jest-junit
+      env:
+        COINSPOT_API_KEY: ${{ secrets.COINSPOT_API_KEY }}
+        COINSPOT_API_SECRET: ${{ secrets.COINSPOT_API_SECRET }}
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: junit.xml
+
+    - name: Run ESLint
+      run: npx eslint .
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run ESLint
+      run: npx eslint .
