@@ -1,6 +1,6 @@
 {
     "name": "coinspot-v2-api",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "description": "CoinSpot v2 API https://www.coinspot.com.au/v2/api",
     "homepage": "https://npmjs.com/coinspot-api-v2",
     "keywords": [

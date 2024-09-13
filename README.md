@@ -7,6 +7,11 @@ simple trading bot project. The existing v1 API is a decade old, and so I had to
 
 See also [Coinspot API Documentation](https://www.coinspot.com.au/api).
 
+This is a new implementation of the Coinspot v2 API, so while it has a test suite and appears to work
+well, please don't use methods for moving money or coins just yet until there's been some more
+verification work and an expansion of the test suite. Please file any questions or bugs you find on
+Github in issues or discussions.  Feel free to crate a development branch and submit PRs too.
+
 ## Features
 
 - Full coverage of CoinSpot's public API endpoints
@@ -20,7 +25,7 @@ See also [Coinspot API Documentation](https://www.coinspot.com.au/api).
 You can install this package using npm:
 
 ```bash
-npm install coinspot-api-v2
+npm install coinspot-v2-api
 ```
 
 ## Usage
