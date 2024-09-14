@@ -12,6 +12,8 @@ well, please don't use methods for moving money or coins just yet until there's 
 verification work and an expansion of the test suite. Please file any questions or bugs you find on
 Github in issues or discussions.  Feel free to crate a development branch and submit PRs too.
 
+I'm working on github workflows and running tests there, please just run `npm run test` locally for now.
+
 ## Features
 
 - Full coverage of CoinSpot's public API endpoints
