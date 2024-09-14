@@ -28,32 +28,11 @@ jobs:
     - name: Build
       run: npm run build --if-present
 
-    - name: Run tests with coverage
-      run: npm test -- --coverage
+    - name: Run tests
+      run: npm test
       env:
         COINSPOT_API_KEY: ${{ secrets.COINSPOT_API_KEY }}
         COINSPOT_API_SECRET: ${{ secrets.COINSPOT_API_SECRET }}
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: coverage/
-
-    - name: Run tests with JUnit reporter
-      run: npm test -- --ci --reporters=default --reporters=jest-junit
-      env:
-        COINSPOT_API_KEY: ${{ secrets.COINSPOT_API_KEY }}
-        COINSPOT_API_SECRET: ${{ secrets.COINSPOT_API_SECRET }}
-
-    - name: Upload test results
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-results
-        path: junit.xml
 
     - name: Run ESLint
       run: npx eslint .

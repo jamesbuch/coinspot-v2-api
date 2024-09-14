@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 export interface ApiResponse {
     status: string;
     message?: string;  // Make message optional

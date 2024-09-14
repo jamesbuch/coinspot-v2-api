@@ -13,7 +13,7 @@
         "rootDir": "./src",
         "strict": true,
         "esModuleInterop": true,
-        "skipLibCheck": true,
+        "skipLibCheck": false,
         "forceConsistentCasingInFileNames": true
     },
     "include": [
@@ -21,10 +21,14 @@
     ],
     "exclude": [
         "node_modules",
-        "**/*.test.ts"
+        "examples"
     ],
-    "ts-node": {
-        "esm": true,
-        "experimentalSpecifierResolution": "node"
-    }
+    "lint": [
+        {
+            "exclude": [
+                "src/examples/**/*.ts",
+                "src/**/*.js"
+            ]
+        }
+    ]
 }

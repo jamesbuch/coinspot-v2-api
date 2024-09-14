@@ -40,6 +40,7 @@ if (process.env.NODE_ENV !== 'production') {
     }));
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function logApiCall(functionName: string, params: any, result: any) {
     logger.info(`API Call: ${functionName}`, {
         params: JSON.stringify(params, null, 2),

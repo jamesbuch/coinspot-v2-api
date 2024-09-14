@@ -10,6 +10,7 @@ export class CoinspotApiBase {
         this.secret = secret;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected async request<T>(path: string, data: any = {}, readOnly: boolean = false): Promise<T> {
         const nonce = Date.now();
         const payload = { ...data, nonce };

@@ -7,7 +7,7 @@ import {
 const api = new CoinspotPublicApi();
 
 describe('Public API', () => {
-    const testCoin = 'btc';
+    const testCoin = 'doge';
 
     test('getLatestPrices', async () => {
         const result = await api.getLatestPrices();

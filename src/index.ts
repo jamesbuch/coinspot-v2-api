@@ -9,8 +9,8 @@ export * from './types';
 export class Coinspot {
 
     public readonly public: CoinspotPublicApi;
-    public readonly readOnly: AuthenticatedCoinspotReadOnlyApi;
-    public readonly authenticated: AuthenticatedCoinspotApi;
+    public readonly readOnly: AuthenticatedCoinspotReadOnlyApi | null;
+    public readonly authenticated: AuthenticatedCoinspotApi | null;
 
     private apiKeyRequiredMessage = 'API key and secret are required for authenticated operations';
 
@@ -21,8 +21,8 @@ export class Coinspot {
             this.readOnly = new AuthenticatedCoinspotReadOnlyApi(apiKey, apiSecret);
             this.authenticated = new AuthenticatedCoinspotApi(apiKey, apiSecret);
         } else {
-            this.readOnly = null as any;
-            this.authenticated = null as any;
+            this.readOnly = null;
+            this.authenticated = null;
         }
     }
 
