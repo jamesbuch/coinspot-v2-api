@@ -14,8 +14,8 @@ describe('Authenticated API', () => {
             console.log('dotenv not found, skipping .env file loading');
         }
     
-        API_KEY = process.env.COINSPOT_API_KEY!;
-        API_SECRET = process.env.COINSPOT_API_SECRET!;
+        API_KEY = process.env['COINSPOT_API_KEY']!;
+        API_SECRET = process.env['COINSPOT_API_SECRET']!;
     
         if (!API_KEY || !API_SECRET) {
             throw new Error('COINSPOT_API_KEY and COINSPOT_API_SECRET must be set in environment variables or .env file');
@@ -40,9 +40,9 @@ describe('Authenticated API', () => {
             expect(firstNetwork).toHaveProperty('fee');
             expect(firstNetwork).toHaveProperty('minsend');
             expect(firstNetwork).toHaveProperty('default');
-            expect(typeof firstNetwork.fee).toBe('number');
-            expect(typeof firstNetwork.minsend).toBe('number');
-            expect(typeof firstNetwork.default).toBe('boolean');
+            expect(typeof firstNetwork?.fee).toBe('number');
+            expect(typeof firstNetwork?.minsend).toBe('number');
+            expect(typeof firstNetwork?.default).toBe('boolean');
         }
     });
 
