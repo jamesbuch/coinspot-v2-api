@@ -1,12 +1,15 @@
-name: CD
+name: CI
 
 on:
   push:
-    branches:
+    branches-ignore:
       - main
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
-  build-and-publish:
+  test:
     runs-on: ubuntu-latest
     environment: production
 
@@ -16,10 +19,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        registry-url: 'https://registry.npmjs.org'
     - run: npm ci
-    - run: npm run build
-    - name: Publish to npm
-      run: npm publish
+    - name: Run tests
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        COINSPOT_API_KEY: ${{ secrets.COINSPOT_API_KEY }}
+        COINSPOT_API_SECRET: ${{ secrets.COINSPOT_API_SECRET }}
+      run: npm test

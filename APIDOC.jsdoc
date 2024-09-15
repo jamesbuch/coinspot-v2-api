@@ -1,0 +1,355 @@
+/**
+ * Get latest prices for all coins
+ * @returns {Promise<LatestPricesResponse>} Object containing latest prices for all coins
+ */
+function getLatestPrices(): Promise<LatestPricesResponse> {}
+
+/**
+ * Get latest price for a specific coin
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @returns {Promise<LatestCoinPricesResponse>} Object containing latest price for the specified coin
+ */
+function getLatestCoinPrice(cointype: string): Promise<LatestCoinPricesResponse> {}
+
+/**
+ * Get latest price for a specific coin in a specific market
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} markettype - Market coin short name (e.g., 'USDT')
+ * @returns {Promise<LatestCoinPricesResponse>} Object containing latest price for the specified coin in the specified market
+ */
+function getLatestCoinMarketPrice(cointype: string, markettype: string): Promise<LatestCoinPricesResponse> {}
+
+/**
+ * Get latest buy price for a specific coin
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @returns {Promise<LatestBuySellPriceResponse>} Object containing latest buy price for the specified coin
+ */
+function getLatestBuyPrice(cointype: string): Promise<LatestBuySellPriceResponse> {}
+
+/**
+ * Get latest buy price for a specific coin in a specific market
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} markettype - Market coin short name (e.g., 'USDT')
+ * @returns {Promise<LatestBuySellPriceResponse>} Object containing latest buy price for the specified coin in the specified market
+ */
+function getLatestBuyMarketPrice(cointype: string, markettype: string): Promise<LatestBuySellPriceResponse> {}
+
+/**
+ * Get latest sell price for a specific coin
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @returns {Promise<LatestBuySellPriceResponse>} Object containing latest sell price for the specified coin
+ */
+function getLatestSellPrice(cointype: string): Promise<LatestBuySellPriceResponse> {}
+
+/**
+ * Get latest sell price for a specific coin in a specific market
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} markettype - Market coin short name (e.g., 'USDT')
+ * @returns {Promise<LatestBuySellPriceResponse>} Object containing latest sell price for the specified coin in the specified market
+ */
+function getLatestSellMarketPrice(cointype: string, markettype: string): Promise<LatestBuySellPriceResponse> {}
+
+/**
+ * Get open orders for a specific coin
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @returns {Promise<OpenOrdersResponse>} Object containing open buy and sell orders for the specified coin
+ */
+function getOpenOrders(cointype: string): Promise<OpenOrdersResponse> {}
+
+/**
+ * Get open orders for a specific coin in a specific market
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} markettype - Market coin short name (e.g., 'USDT')
+ * @returns {Promise<OpenOrdersResponse>} Object containing open buy and sell orders for the specified coin in the specified market
+ */
+function getOpenMarketOrders(cointype: string, markettype: string): Promise<OpenOrdersResponse> {}
+
+/**
+ * Get completed orders for a specific coin
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @returns {Promise<CompletedOrdersResponse>} Object containing completed buy and sell orders for the specified coin
+ */
+function getCompletedOrders(cointype: string): Promise<CompletedOrdersResponse> {}
+
+/**
+ * Get completed orders for a specific coin in a specific market
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} markettype - Market coin short name (e.g., 'USDT')
+ * @returns {Promise<CompletedOrdersResponse>} Object containing completed buy and sell orders for the specified coin in the specified market
+ */
+function getCompletedMarketOrders(cointype: string, markettype: string): Promise<CompletedOrdersResponse> {}
+
+/**
+ * Check the status of the API
+ * @returns {Promise<FullAccessApiStatusResponse>} Object containing API status
+ */
+function checkFullAccessApiStatus(): Promise<FullAccessApiStatusResponse> {}
+
+/**
+ * Get deposit address for a specific coin
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @returns {Promise<CoinDepositAddressResponse>} Object containing deposit address information for the specified coin
+ */
+function getCoinDepositAddress(cointype: string): Promise<CoinDepositAddressResponse> {}
+
+/**
+ * Get quote for buying a specific coin
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {number} amount - Amount to buy
+ * @param {string} amounttype - 'coin' or 'aud'
+ * @returns {Promise<BuySellQuoteResponse>} Object containing buy quote for the specified coin
+ */
+function getBuyQuote(cointype: string, amount: number, amounttype: string): Promise<BuySellQuoteResponse> {}
+
+/**
+ * Get quote for selling a specific coin
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {number} amount - Amount of coins to sell
+ * @param {string} amounttype - 'coin' or 'aud'
+ * @returns {Promise<BuySellQuoteResponse>} Object containing sell quote for the specified coin
+ */
+function getSellQuote(cointype: string, amount: number, amounttype: string): Promise<BuySellQuoteResponse> {}
+
+/**
+ * Get quote for swapping coins
+ * @param {string} cointypesell - Coin short name to sell (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} cointypebuy - Coin short name to buy (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {number} amount - Amount of coins to swap
+ * @returns {Promise<SwapQuoteResponse>} Object containing swap quote for the specified coins
+ */
+function getSwapQuote(cointypesell: string, cointypebuy: string, amount: number): Promise<SwapQuoteResponse> {}
+
+/**
+ * Place a market buy order
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {number} amount - Amount of coins to buy
+ * @param {number} rate - Rate in market currency
+ * @param {string} [markettype='AUD'] - Market coin short name (e.g., 'USDT')
+ * @returns {Promise<PlaceMarketBuySellOrderResponse>} Object containing details of the placed buy order
+ */
+function placeMarketBuyOrder(cointype: string, amount: number, rate: number, markettype?: string): Promise<PlaceMarketBuySellOrderResponse> {}
+
+/**
+ * Edit an open market buy order
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} id - Order ID of the target buy order
+ * @param {number} rate - Current rate of the open order
+ * @param {number} newrate - Proposed new rate for the order
+ * @returns {Promise<EditOpenMarketBuySellOrderResponse>} Object containing details of the edited buy order
+ */
+function editOpenMarketBuyOrder(cointype: string, id: string, rate: number, newrate: number): Promise<EditOpenMarketBuySellOrderResponse> {}
+
+/**
+ * Place a buy now order
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} amounttype - 'coin' or 'aud'
+ * @param {number} amount - Amount to buy
+ * @param {number} [rate] - Rate in AUD (optional)
+ * @param {number} [threshold] - Percentage threshold for rate variation (0 to 1000)
+ * @param {string} [direction='UP'] - Direction for threshold: 'UP', 'DOWN', or 'BOTH'
+ * @returns {Promise<PlaceBuySellNowOrderResponse>} Object containing details of the placed buy now order
+ */
+function placeBuyNowOrder(cointype: string, amounttype: string, amount: number, rate?: number, threshold?: number, direction?: string): Promise<PlaceBuySellNowOrderResponse> {}
+
+/**
+ * Place a market sell order
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {number} amount - Amount of coins to sell
+ * @param {number} rate - Rate in AUD
+ * @param {string} [markettype='AUD'] - Market coin short name (e.g., 'USDT')
+ * @returns {Promise<PlaceMarketBuySellOrderResponse>} Object containing details of the placed sell order
+ */
+function placeMarketSellOrder(cointype: string, amount: number, rate: number, markettype?: string): Promise<PlaceMarketBuySellOrderResponse> {}
+
+/**
+ * Edit an open market sell order
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} id - Order ID of the target sell order
+ * @param {number} rate - Current rate of the open order
+ * @param {number} newrate - Proposed new rate for the order
+ * @returns {Promise<EditOpenMarketBuySellOrderResponse>} Object containing details of the edited sell order
+ */
+function editOpenMarketSellOrder(cointype: string, id: string, rate: number, newrate: number): Promise<EditOpenMarketBuySellOrderResponse> {}
+
+/**
+ * Place a sell now order
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} amounttype - 'coin' or 'aud'
+ * @param {number} amount - Amount of coins to sell
+ * @param {number} [rate] - Rate in AUD (optional)
+ * @param {number} [threshold] - Percentage threshold for rate variation (0 to 1000)
+ * @param {string} [direction='DOWN'] - Direction for threshold: 'UP', 'DOWN', or 'BOTH'
+ * @returns {Promise<PlaceBuySellNowOrderResponse>} Object containing details of the placed sell now order
+ */
+function placeSellNowOrder(cointype: string, amounttype: string, amount: number, rate?: number, threshold?: number, direction?: string): Promise<PlaceBuySellNowOrderResponse> {}
+
+/**
+ * Place a swap now order
+ * @param {string} cointypesell - Coin short name to sell (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} cointypebuy - Coin short name to buy (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {number} amount - Amount of coins to swap
+ * @param {number} [rate] - Rate received from Swap Now Quote (optional)
+ * @param {number} [threshold] - Percentage threshold for rate variation (0 to 1000)
+ * @param {string} [direction='BOTH'] - Direction for threshold: 'UP', 'DOWN', or 'BOTH'
+ * @returns {Promise<PlaceSwapNowOrderResponse>} Object containing details of the placed swap now order
+ */
+function placeSwapNowOrder(cointypesell: string, cointypebuy: string, amount: number, rate?: number, threshold?: number, direction?: string): Promise<PlaceSwapNowOrderResponse> {}
+
+/**
+ * Cancel a buy order
+ * @param {string} id - ID of the buy order to cancel
+ * @returns {Promise<CancelOrderResponse>} Object containing the cancellation status
+ */
+function cancelBuyOrder(id: string): Promise<CancelOrderResponse> {}
+
+/**
+ * Cancel all buy orders
+ * @param {string} [coin] - Coin short name to cancel orders for (optional)
+ * @returns {Promise<CancelOrderResponse>} Object containing the cancellation status
+ */
+function cancelAllBuyOrders(coin?: string): Promise<CancelOrderResponse> {}
+
+/**
+ * Cancel a sell order
+ * @param {string} id - ID of the sell order to cancel
+ * @returns {Promise<CancelOrderResponse>} Object containing the cancellation status
+ */
+function cancelSellOrder(id: string): Promise<CancelOrderResponse> {}
+
+/**
+ * Cancel all sell orders
+ * @param {string} [coin] - Coin short name to cancel orders for (optional)
+ * @returns {Promise<CancelOrderResponse>} Object containing the cancellation status
+ */
+function cancelAllSellOrders(coin?: string): Promise<CancelOrderResponse> {}
+
+/**
+ * Get coin withdrawal details
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @returns {Promise<CoinWithdrawalDetailsResponse>} Object containing withdrawal details for the specified coin
+ */
+function getCoinWithdrawalDetails(cointype: string): Promise<CoinWithdrawalDetailsResponse> {}
+
+/**
+ * Withdraw coin
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {number} amount - Amount of coins to withdraw
+ * @param {string} address - Destination address for the withdrawal
+ * @param {string} [emailconfirm='NO'] - Whether to send email confirmation ('YES' or 'NO')
+ * @param {string} [network] - Network to use for sending (e.g., 'BNB', 'ETH')
+ * @param {string} [paymentid] - Payment ID/memo for the withdrawal (where applicable)
+ * @returns {Promise<WithdrawCoinResponse>} Object containing the withdrawal status
+ */
+function withdrawCoin(cointype: string, amount: number, address: string, emailconfirm?: string, network?: string, paymentid?: string): Promise<WithdrawCoinResponse> {}
+
+/**
+ * Check the status of the API
+ * @returns {Promise<ReadOnlyApiStatusResponse>} Object containing API status
+ */
+function checkReadOnlyApiStatus(): Promise<ReadOnlypiStatusResponse> {}
+
+/**
+ * Get open market orders
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} [markettype] - Market coin short name (e.g., 'AUD', 'USDT')
+ * @returns {Promise<OpenOrdersResponse>} Object containing open market orders for the specified coin and market
+ */
+function getOpenMarketOrders(cointype: string, markettype?: string): Promise<OpenOrdersResponse> {}
+
+/**
+ * Get completed market orders
+ * @param {string} cointype - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} [markettype] - Market coin short name (e.g., 'AUD', 'USDT')
+ * @param {string} [startdate] - Start date in 'YYYY-MM-DD' format or UNIX EPOCH time
+ * @param {string} [enddate] - End date in 'YYYY-MM-DD' format or UNIX EPOCH time
+ * @param {number} [limit=200] - Number of records to return (max 500)
+ * @returns {Promise<CompletedOrdersResponse>} Object containing completed market orders for the specified parameters
+ */
+function getCompletedMarketOrders(cointype: string, markettype?: string, startdate?: string, enddate?: string, limit?: number): Promise<CompletedOrdersResponse> {}
+
+/**
+ * Get user's coin balances
+ * @returns {Promise<MyCoinBalancesResponse>} Object containing user's coin balances
+ */
+function getMyCoinBalances(): Promise<MyCoinBalancesResponse> {}
+
+/**
+ * Get user's coin balance (available)
+ * @param {string} cointype - Coin short name (e.g., 'AUD', 'BTC', 'LTC', 'DOGE')
+ * @param {string} [available='no'] - Whether to return available balance ('yes' or 'no')
+ * @returns {Promise<MyCoinBalanceResponse>} Object containing user's coin balance
+ */
+function getMyCoinBalance(cointype: string, available?: string): Promise<MyCoinBalanceResponse> {}
+
+/**
+ * Get user's open market orders
+ * @param {string} [cointype] - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} [markettype] - Market coin short name (e.g., 'USDT', 'AUD')
+ * @returns {Promise<MyOpenMarketOrdersResponse>} Object containing user's open market orders
+ */
+function getMyOpenMarketOrders(cointype?: string, markettype?: string): Promise<MyOpenMarketOrdersResponse> {}
+
+/**
+ * Get user's open limit orders
+ * @param {string} [cointype] - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @returns {Promise<MyOpenLimitOrdersResponse>} Object containing user's open limit orders
+ */
+function getMyOpenLimitOrders(cointype?: string): Promise<MyOpenLimitOrdersResponse> {}
+
+/**
+ * Get user's order history
+ * @param {string} [cointype] - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} [markettype] - Market coin short name (e.g., 'AUD', 'USDT')
+ * @param {string} [startdate] - Start date in 'YYYY-MM-DD' format or UNIX EPOCH time
+ * @param {string} [enddate] - End date in 'YYYY-MM-DD' format or UNIX EPOCH time
+ * @param {number} [limit=200] - Number of records to return (max 500)
+ * @returns {Promise<MyOrderHistoryResponse>} Object containing user's order history
+ */
+function getMyOrderHistory(cointype?: string, markettype?: string, startdate?: string, enddate?: string, limit?: number): Promise<MyOrderHistoryResponse> {}
+
+/**
+ * Get user's market order history
+ * @param {string} [cointype] - Coin short name (e.g., 'BTC', 'LTC', 'DOGE')
+ * @param {string} [markettype] - Market coin short name (e.g., 'AUD', 'USDT')
+ * @param {string} [startdate] - Start date in 'YYYY-MM-DD' format or UNIX EPOCH time
+ * @param {string} [enddate] - End date in 'YYYY-MM-DD' format or UNIX EPOCH time
+ * @param {number} [limit=200] - Number of records to return (max 500)
+ * @returns {Promise<MyOrderHistoryResponse>} Object containing user's market order history
+ */
+function getMyMarketOrderHistory(cointype?: string, markettype?: string, startdate?: string, enddate?: string, limit?: number): Promise<MyOrderHistoryResponse> {}
+
+/**
+ * Get user's send and receive history
+ * @param {string} [startdate] - Start date in 'YYYY-MM-DD' format
+ * @param {string} [enddate] - End date in 'YYYY-MM-DD' format
+ * @returns {Promise<MySendReceiveHistoryResponse>} Object containing user's send and receive history
+ */
+function getMySendReceiveHistory(startdate?: string, enddate?: string): Promise<MySendReceiveHistoryResponse> {}
+
+/**
+ * Get user's deposit history
+ * @param {string} [startdate] - Start date in 'YYYY-MM-DD' format
+ * @param {string} [enddate] - End date in 'YYYY-MM-DD' format
+ * @returns {Promise<MyDepositHistoryResponse>} Object containing user's deposit history
+ */
+function getMyDepositHistory(startdate?: string, enddate?: string): Promise<MyDepositHistoryResponse> {}
+
+/**
+ * Get user's withdrawal history
+ * @param {string} [startdate] - Start date in 'YYYY-MM-DD' format
+ * @param {string} [enddate] - End date in 'YYYY-MM-DD' format
+ * @returns {Promise<MyWithdrawalHistoryResponse>} Object containing user's withdrawal history
+ */
+function getMyWithdrawalHistory(startdate?: string, enddate?: string): Promise<MyWithdrawalHistoryResponse> {}
+
+/**
+ * Get user's affiliate payments
+ * @returns {Promise<MyAffiliatePaymentsResponse>} Object containing user's affiliate payments
+ */
+function getMyAffiliatePayments(): Promise<MyAffiliatePaymentsResponse> {}
+
+/**
+ * Get user's referral payments
+ * @returns {Promise<MyReferralPaymentsResponse>} Object containing user's referral payments
+ */
+function getMyReferralPayments(): Promise<MyReferralPaymentsResponse> {}

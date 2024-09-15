@@ -1,23 +1,28 @@
 {
     "extends": "@tsconfig/strictest/tsconfig.json",
     "compilerOptions": {
-        "allowJs": false,
-        "checkJs": false,
+        "target": "ES2018",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "outDir": "dist",
+        "rootDir": "src",
         "declaration": true,
         "declarationMap": true,
-        "emitDeclarationOnly": true,
-        "lib": ["ES2022"],
-        "module": "ES2022",
-        "moduleResolution": "Bundler",
         "sourceMap": true,
-        "target": "ES2022"
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "types": [
+            "mocha",
+            "node"
+        ]
     },
     "include": [
         "src/**/*"
     ],
     "exclude": [
         "node_modules",
-        "examples"
+        "dist"
     ],
     "lint": [
         {

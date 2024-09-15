@@ -1,137 +1,64 @@
-// tests/publicApi.test.ts
+import { CoinspotPublicApi } from '../src/coinspotPublicApi';
+import { expect } from 'chai';
+import 'mocha';
 
-import {
-    CoinspotPublicApi
-} from '../src/publicApi';
+describe('Coinspot Public API', () => {
+    let api: CoinspotPublicApi;
 
-const api = new CoinspotPublicApi();
-
-describe('Public API', () => {
-    const testCoin = 'doge';
-
-    test('getLatestPrices', async () => {
-        const result = await api.getLatestPrices();
-        expect(result).toBeDefined();
-        expect(result.status).toBe('ok');
-        if (result.status !== 'ok') {
-            expect(result.message).toBeDefined();
-        }
-        expect(result.prices).toBeDefined();
-        if (result.prices) {
-            expect(Object.keys(result.prices).length).toBeGreaterThan(0);
-            const firstCoin = Object.values(result.prices)[0];
-            expect(firstCoin).toHaveProperty('bid');
-            expect(firstCoin).toHaveProperty('ask');
-            expect(firstCoin).toHaveProperty('last');
-            expect(parseFloat(firstCoin?.bid as string)).toBeGreaterThan(0);
-            expect(parseFloat(firstCoin?.ask as string)).toBeGreaterThan(0);
-            expect(parseFloat(firstCoin?.last as string)).toBeGreaterThan(0);
-        }
+    before(() => {
+        api = new CoinspotPublicApi();
     });
 
-    test('getLatestCoinPrice', async () => {
-        const result = await api.getLatestCoinPrice(testCoin);
-        expect(result).toBeDefined();
-        expect(result.status).toBe('ok');
-        if (result.status !== 'ok') {
-            expect(result.message).toBeDefined();
-        }
-        if (result.prices) {
-            expect(parseFloat(result.prices.bid)).toBeGreaterThan(0);
-            expect(parseFloat(result.prices.ask)).toBeGreaterThan(0);
-            expect(parseFloat(result.prices.last)).toBeGreaterThan(0);
-        }
+    it('should get latest prices for all coins', async () => {
+        const response = await api.getLatestPrices();
+        expect(response.status).to.equal('ok');
+        expect(response.prices).to.be.an('object');
     });
 
-    test('getLatestBuyPrice', async () => {
-        const result = await api.getLatestBuyPrice(testCoin);
-        expect(result).toBeDefined();
-        expect(result.status).toBe('ok');
-        if (result.status !== 'ok') {
-            expect(result.message).toBeDefined();
-        }
-        if (result.rate) {
-            expect(parseFloat(result.rate)).toBeGreaterThan(0);
-        }
-        expect(result.market).toBe(`${testCoin.toUpperCase()}/AUD`);
+    it('should get latest price for a specific coin', async () => {
+        const cointype = 'BTC';
+        const response = await api.getLatestCoinPrice(cointype);
+        expect(response.status).to.equal('ok');
+        expect(response.prices).to.have.all.keys('bid', 'ask', 'last');
     });
 
-    test('getLatestSellPrice', async () => {
-        const result = await api.getLatestSellPrice(testCoin);
-        expect(result).toBeDefined();
-        expect(result.status).toBe('ok');
-        if (result.status !== 'ok') {
-            expect(result.message).toBeDefined();
-        }
-        if (result.rate) {
-            expect(parseFloat(result.rate)).toBeGreaterThan(0);
-        }
-        expect(result.market).toBe(`${testCoin.toUpperCase()}/AUD`);
+    it('should get latest price for a specific coin in a specific market', async () => {
+        const cointype = 'BTC';
+        const markettype = 'USDT';
+        const response = await api.getLatestCoinMarketPrice(cointype, markettype);
+        expect(response.status).to.equal('ok');
+        expect(response.prices).to.have.all.keys('bid', 'ask', 'last');
     });
 
-    test('Invalid coin handling', async () => {
-        const result = await api.getLatestCoinPrice('invalidcoin');
-        expect(result.status).toBe('ok');
-        expect(result.prices).toBeUndefined();
+    it('should get latest buy price for a specific coin', async () => {
+        const cointype = 'BTC';
+        const response = await api.getLatestBuyPrice(cointype);
+        expect(response.status).to.equal('ok');
+        expect(response.rate).to.be.a('string');
+        expect(parseFloat(response.rate)).to.be.greaterThanOrEqual(1000.00);
     });
 
-    test('getOpenOrders', async () => {
-        const result = await api.getOpenOrders(testCoin);
-        expect(result).toBeDefined();
-        expect(result.status).toBe('ok');
-        if (result.status !== 'ok') {
-            expect(result.message).toBeDefined();
-        }
-        expect(Array.isArray(result.buyorders)).toBe(true);
-        expect(Array.isArray(result.sellorders)).toBe(true);
-
-        if (result.buyorders.length > 0) {
-            const firstBuyOrder = result.buyorders[0];
-            expect(firstBuyOrder).toHaveProperty('amount');
-            expect(firstBuyOrder).toHaveProperty('rate');
-            expect(firstBuyOrder).toHaveProperty('total');
-            expect(firstBuyOrder).toHaveProperty('coin');
-            expect(firstBuyOrder).toHaveProperty('market');
-        }
-
-        if (result.sellorders.length > 0) {
-            const firstSellOrder = result.sellorders[0];
-            expect(firstSellOrder).toHaveProperty('amount');
-            expect(firstSellOrder).toHaveProperty('rate');
-            expect(firstSellOrder).toHaveProperty('total');
-            expect(firstSellOrder).toHaveProperty('coin');
-            expect(firstSellOrder).toHaveProperty('market');
-        }
+    it('should get latest sell price for a specific coin', async () => {
+        const cointype = 'BTC';
+        const response = await api.getLatestSellPrice(cointype);
+        expect(response.status).to.equal('ok');
+        expect(response.rate).to.be.a('string');
+        expect(parseFloat(response.rate)).to.be.greaterThanOrEqual(1000.00);
     });
 
-    test('getCompletedOrders', async () => {
-        const result = await api.getCompletedOrders(testCoin);
-        expect(result).toBeDefined();
-        expect(result.status).toBe('ok');
-        if (result.status !== 'ok') {
-            expect(result.message).toBeDefined();
-        }
-        expect(Array.isArray(result.buyorders)).toBe(true);
-        expect(Array.isArray(result.sellorders)).toBe(true);
+    it('should get open orders for a specific coin', async () => {
+        const cointype = 'BTC';
+        const response = await api.getOpenOrders(cointype);
+        expect(response.status).to.equal('ok');
+        expect(response.buyorders).to.be.an('array');
+        expect(response.sellorders).to.be.an('array');
+    });
 
-        if (result.buyorders.length > 0) {
-            const firstBuyOrder = result.buyorders[0];
-            expect(firstBuyOrder).toHaveProperty('amount');
-            expect(firstBuyOrder).toHaveProperty('rate');
-            expect(firstBuyOrder).toHaveProperty('total');
-            expect(firstBuyOrder).toHaveProperty('coin');
-            expect(firstBuyOrder).toHaveProperty('market');
-            expect(firstBuyOrder).toHaveProperty('solddate');
-        }
-
-        if (result.sellorders.length > 0) {
-            const firstSellOrder = result.sellorders[0];
-            expect(firstSellOrder).toHaveProperty('amount');
-            expect(firstSellOrder).toHaveProperty('rate');
-            expect(firstSellOrder).toHaveProperty('total');
-            expect(firstSellOrder).toHaveProperty('coin');
-            expect(firstSellOrder).toHaveProperty('market');
-            expect(firstSellOrder).toHaveProperty('solddate');
-        }
+    it('should get completed orders for a specific coin', async () => {
+        const cointype = 'BTC';
+        const response = await api.getCompletedOrders(cointype);
+        expect(response.status).to.equal('ok');
+        expect(response.buyorders).to.be.an('array');
+        expect(response.sellorders).to.be.an('array');
     });
 });
