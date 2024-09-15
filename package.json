@@ -1,6 +1,6 @@
 {
     "name": "coinspot-v2-api",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "CoinSpot v2 API https://www.coinspot.com.au/v2/api",
     "homepage": "https://npmjs.com/coinspot-api-v2",
     "keywords": [
@@ -10,7 +10,9 @@
         "bitcoin",
         "exchange",
         "cryptocurrency",
-        "trade"
+        "node",
+        "wrapper",
+        "api"
     ],
     "repository": {
         "type": "github",
@@ -20,6 +22,12 @@
         "url": "https://github.com/jamesbuch/coinspot-api-v2/issues"
     },
     "license": "BSD-3-Clause",
+    "type": "commonjs",
+    "author": {
+        "name": "James Buchanan",
+        "email": "jamesbuch1337@gmail.com",
+        "url": "https://github.com/jamesbuch"
+    },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
@@ -28,45 +36,35 @@
         "README.md",
         "package.json"
     ],
-    "type": "module",
-    "author": {
-        "name": "James Buchanan",
-        "email": "jamesbuch1337@gmail.com",
-        "url": "https://github.com/jamesbuch"
-    },
     "scripts": {
-        "build": "run-p -s build:*",
-        "build:main": "babel -x .ts -d dist src",
-        "build:types": "tsc",
-        "test": "jest",
-        "dev": "node --loader ts-node/esm --experimental-specifier-resolution=node examples/demo.ts",
-        "lint": "eslint ."
+        "build": "tsc",
+        "test": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\", \"target\": \"es2018\" }' mocha -r ts-node/register --parallel 'tests/**/*.ts'",
+        "dev": "ts-node src/examples/demo.ts",
+        "lint": "eslint .",
+        "example": "ts-node --esm src/examples/demo.ts"
     },
     "dependencies": {
         "axios": "^1.7.7",
+        "cross-env": "^7.0.3",
         "winston": "^3.14.2"
     },
     "devDependencies": {
-        "@babel/cli": "^7.25.6",
-        "@babel/preset-env": "^7.25.4",
-        "@babel/preset-typescript": "^7.24.7",
         "@eslint/js": "^9.10.0",
-        "@jest/globals": "^29.7.0",
         "@tsconfig/strictest": "^2.0.5",
+        "@types/chai": "^4.3.19",
         "@types/eslint__js": "^8.42.3",
-        "@types/jest": "^29.5.13",
+        "@types/mocha": "^10.0.8",
         "@types/node": "^22.5.4",
         "@types/winston": "^2.4.4",
         "@typescript-eslint/eslint-plugin": "8.5.0",
         "@typescript-eslint/parser": "8.5.0",
-        "babel-plugin-add-import-extension": "^1.6.0",
+        "chai": "^4.5.0",
         "dotenv": "^16.4.5",
         "eslint": "^9.10.0",
-        "jest": "^29.7.0",
-        "npm-run-all": "^4.1.5",
-        "ts-jest": "^29.2.5",
+        "mocha": "^10.7.3",
+        "ts-mocha": "^10.0.0",
         "ts-node": "^10.9.2",
-        "typescript": "^5.6.2",
+        "typescript": "^5.5.4",
         "typescript-eslint": "^8.5.0"
     }
 }

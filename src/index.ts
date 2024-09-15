@@ -1,16 +1,15 @@
 // src/index.ts
-
-import { CoinspotPublicApi } from './publicApi';
-import { AuthenticatedCoinspotReadOnlyApi } from './authenticatedReadOnlyApi';
-import { AuthenticatedCoinspotApi } from './authenticatedApi';
+import { CoinspotPublicApi } from './coinspotPublicApi';
+import { CoinspotReadOnlyApi } from './coinspotReadOnlyApi';
+import { CoinspotApi } from './coinspotApi';
 
 export * from './types';
 
 export class Coinspot {
 
     public readonly public: CoinspotPublicApi;
-    public readonly readOnly: AuthenticatedCoinspotReadOnlyApi | null;
-    public readonly authenticated: AuthenticatedCoinspotApi | null;
+    public readonly readOnly: CoinspotReadOnlyApi | null;
+    public readonly authenticated: CoinspotApi | null;
 
     private apiKeyRequiredMessage = 'API key and secret are required for authenticated operations';
 
@@ -18,8 +17,8 @@ export class Coinspot {
         this.public = new CoinspotPublicApi();
 
         if (apiKey && apiSecret) {
-            this.readOnly = new AuthenticatedCoinspotReadOnlyApi(apiKey, apiSecret);
-            this.authenticated = new AuthenticatedCoinspotApi(apiKey, apiSecret);
+            this.readOnly = new CoinspotReadOnlyApi(apiKey, apiSecret);
+            this.authenticated = new CoinspotApi(apiKey, apiSecret);
         } else {
             this.readOnly = null;
             this.authenticated = null;
@@ -63,20 +62,33 @@ export class Coinspot {
         if (!this.readOnly) {
             throw new Error(this.apiKeyRequiredMessage);
         }
-        return this.readOnly.getSingleCoinBalance(coin, 'yes');
+        return this.readOnly.getMyCoinBalance(coin, 'yes');
     }
 
     async balance() {
         if (!this.readOnly) {
             throw new Error(this.apiKeyRequiredMessage);
         }
-        return this.readOnly.getBalances();
+        return this.readOnly.getMyCoinBalances();
     }
 
+    async readOnlyApiStatus() {
+        if (!this.readOnly) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.readOnly.checkReadOnlyApiStatus();
+    }
 
     // ========================================================================
     // Authenticated API, operate on your accounts, buy, sell, etc.
     // ========================================================================
+
+    async fullAccessApiStatus() {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.checkFullAccessApiStatus();
+    }
 
     async coinDepositAddress(coin: string) {
         if (!this.authenticated) {
@@ -97,6 +109,76 @@ export class Coinspot {
             throw new Error(this.apiKeyRequiredMessage);
         }
         return this.authenticated.placeMarketSellOrder(coin, amount, rate);
+    }
+
+    async cancelBuyOrder(id: string) {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.cancelBuyOrder(id);
+    }
+
+    async cancelSellOrder(id: string) {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.cancelSellOrder(id);
+    }
+
+    async buyNowOrder(coin: string, amounttype: string, amount: number, rate?: number, threshold?: number, direction?: string) {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.placeBuyNowOrder(coin, amounttype, amount, rate, threshold, direction);
+    }
+
+    async sellNowOrder(coin: string, amounttype: string, amount: number, rate?: number, threshold?: number, direction?: string) {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.placeSellNowOrder(coin, amounttype, amount, rate, threshold, direction)
+    }
+
+    async swapNow(cointypesell: string, cointypebuy: string, amount: number, rate?: number, threshold?: number, direction?: string) {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.placeSwapNowOrder(cointypesell, cointypebuy, amount, rate, threshold, direction);
+    }
+
+    async buyNowQuote(coin: string, amount: number, amounttype: string) {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.getBuyNowQuote(coin, amount, amounttype);
+    }
+
+    async sellNowQuote(coin: string, amount: number, amounttype: string) {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.getSellNowQuote(coin, amount, amounttype);
+    }
+
+    async swapNowQuote(sellcoin: string, buycoin: string, amount: number) {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.getSwapNowQuote(sellcoin, buycoin, amount);
+    }
+
+    async withdrawalHistory(coin: string) {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.getCoinWithdrawalDetails(coin);
+    }
+
+    async withdrawCoins(coin: string, amount: number, address: string, emailconfirm?: string, network?: string, paymentid?: string) {
+        if (!this.authenticated) {
+            throw new Error(this.apiKeyRequiredMessage);
+        }
+        return this.authenticated.withdrawCoin(coin, amount, address, emailconfirm, network, paymentid);
     }
 
     // TODO more high-level methods
