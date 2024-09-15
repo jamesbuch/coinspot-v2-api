@@ -1,20 +1,9 @@
-import { AffiliatePaymentsResponse, BalancesResponse, CoinBalance, CoinWithdrawalResponse, CompletedMarketOrdersResponse, CompletedOrdersResponse, DepositHistoryResponse, OpenLimitOrdersResponse, OpenMarketOrdersResponse, OpenOrdersResponse, ReadOnlyStatusResponse, ReferralPaymentsResponse, SendReceiveHistoryResponse, SingleCoinBalanceResponse, WithdrawalHistoryResponse } from './types';
+import { AffiliatePaymentsResponse, BalancesResponse, CoinWithdrawalResponse, CompletedMarketOrdersResponse, CompletedOrdersResponse, DepositHistoryResponse, OpenLimitOrdersResponse, OpenMarketOrdersResponse, OpenOrdersResponse, ReadOnlyStatusResponse, ReferralPaymentsResponse, SendReceiveHistoryResponse, SingleCoinBalanceResponse, WithdrawalHistoryResponse } from './types';
 import { CoinspotApiBase } from './coinspotApiBase';
 
 export class AuthenticatedCoinspotReadOnlyApi extends CoinspotApiBase {
     async getBalances(): Promise<BalancesResponse> {
         return this.request<BalancesResponse>('/my/balances', {}, true);
-    }
-
-    // Helper method to get balances in a more usable format
-    async getFormattedBalances(): Promise<{ [coin: string]: CoinBalance }> {
-        const response = await this.getBalances();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return response.balances.reduce((acc: any, entry: any | ArrayLike<unknown>) => {
-            const [coin, balance] = Object.entries(entry)[0];
-            acc[coin] = balance;
-            return acc;
-        }, {} as { [coin: string]: CoinBalance });
     }
 
     // Add more methods for other authenticated endpoints

@@ -23,9 +23,9 @@ describe('Public API', () => {
             expect(firstCoin).toHaveProperty('bid');
             expect(firstCoin).toHaveProperty('ask');
             expect(firstCoin).toHaveProperty('last');
-            expect(parseFloat(firstCoin.bid)).toBeGreaterThan(0);
-            expect(parseFloat(firstCoin.ask)).toBeGreaterThan(0);
-            expect(parseFloat(firstCoin.last)).toBeGreaterThan(0);
+            expect(parseFloat(firstCoin?.bid as string)).toBeGreaterThan(0);
+            expect(parseFloat(firstCoin?.ask as string)).toBeGreaterThan(0);
+            expect(parseFloat(firstCoin?.last as string)).toBeGreaterThan(0);
         }
     });
 

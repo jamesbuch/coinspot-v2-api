@@ -2,8 +2,8 @@ import { Coinspot } from '../index';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const API_KEY = process.env.COINSPOT_API_KEY;
-const API_SECRET = process.env.COINSPOT_API_SECRET;
+const API_KEY = process.env['COINSPOT_API_KEY'];
+const API_SECRET = process.env['COINSPOT_API_SECRET'];
 
 const coinspot = new Coinspot(API_KEY, API_SECRET);
 
