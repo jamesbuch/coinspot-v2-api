@@ -1,30 +1,31 @@
-# CoinSpot API v2
+# Coinspot V2 API Wrapper
 
-A TypeScript SDK for the CoinSpot cryptocurrency exchange API. This library provides a simple and intuitive interface to interact with both public and authenticated endpoints of the CoinSpot v2 API.
+Apologies to everyone who downloaded and tried to use earlier versions!  I had to fix a lot of configuration
+and other problems, and still now there are annoyances such as some values from the API being returned as
+a string when you would expect a number.  Still...
 
-This is not an offical Coinspot project. I am just another Coinspot customer, and needed an API for a
-simple trading bot project. The existing v1 API is a decade old, and so I had to roll my own.
+A comprehensive TypeScript wrapper for the Coinspot V2 API, providing easy access to public, read-only, and authenticated endpoints.
 
-See also [Coinspot API Documentation](https://www.coinspot.com.au/api).
+TypeScript types are provided in the distribution package, and comprehensive JSDoc comments are included too.
 
-This is a new implementation of the Coinspot v2 API, so while it has a test suite and appears to work
-well, please don't use methods for moving money or coins just yet until there's been some more
-verification work and an expansion of the test suite. Please file any questions or bugs you find on
-Github in issues or discussions.  Feel free to crate a development branch and submit PRs too.
+Please also see the test suite for reference.
 
-I'm working on github workflows and running tests there, please just run `npm run test` locally for now.
+## Donations
+
+If you find this project helpful, consider supporting its development with a DOGE donation:
+
+Ð DOGE Address: `D8hDbe3YX1umuvKKFukKNEhicDA8of5JCR`
 
 ## Features
 
-- Full coverage of CoinSpot's public API endpoints
-- Support for authenticated API calls (read-only and full access)
-- TypeScript support for improved developer experience and type safety
-- Comprehensive test suite
-- Detailed logging for API calls during development and testing
+- Full coverage of Coinspot V2 API endpoints
+- TypeScript support with detailed type definitions
+- Separate classes for public, read-only, and authenticated APIs
+- Easy-to-use high-level API for common operations
+- Secure handling of API keys and request signing
+- Comprehensive error handling and response typing
 
 ## Installation
-
-You can install this package using npm:
 
 ```bash
 npm install coinspot-v2-api
@@ -32,206 +33,154 @@ npm install coinspot-v2-api
 
 ## Usage
 
-First, import the CoinSpot API:
+### Basic Usage
 
 ```typescript
-import { createCoinspotApi } from 'coinspot-v2-api';
-```
+import Coinspot from 'coinspot-v2-api';
 
-### Public API
-
-To use the public API (no authentication required):
-
-```typescript
-const api = createCoinspotApi();
-
-// Get latest prices
-const prices = await api.public.getLatestPrices();
-
-// Get latest price for a specific coin
-const btcPrice = await api.public.getLatestCoinPrice('BTC');
-```
-
-### Authenticated API
-
-To use the authenticated API, you need to provide your API key and secret:
-
-```typescript
-const api = createCoinspotApi('your-api-key', 'your-api-secret');
-
-// Get account balances
-const balances = await api.readOnly.getBalances();
-
-// Place a buy order
-const order = await api.authenticated.placeMarketBuyOrder('BTC', 0.1, 50000);
-```
-
-### Simplified top-level API
-
-This is probably the one you want to start with, see also [the demo](./examples/demo.ts).
-
-```typescript
-import { Coinspot } from 'coinspot-v2-api';
-import dotenv from 'dotenv';
-dotenv.config();
-
-const API_KEY = process.env.COINSPOT_API_KEY;
-const API_SECRET = process.env.COINSPOT_API_SECRET;
+const API_KEY = 'your_api_key';
+const API_SECRET = 'your_api_secret';
 
 const coinspot = new Coinspot(API_KEY, API_SECRET);
 
+// Get latest prices
 const prices = await coinspot.latestPrices();
-console.log(prices);
+console.log('Latest prices:', prices);
 
-const bitcoins = await coinspot.latestCoinPrice('btc');
-console.log(bitcoins);
+// Get Bitcoin price
+const bitcoinPrice = await coinspot.latestCoinPrice('BTC');
+console.log('Bitcoin price:', bitcoinPrice);
 
-const ethers = await coinspot.latestCoinPrice('eth');
-console.log(ethers);
-
-const btcaddr = await coinspot.coinDepositAddress('btc');
-const ethaddr = await coinspot.coinDepositAddress('eth');
-const bchaddr = await coinspot.coinDepositAddress('bch');
-const ltcaddr = await coinspot.coinDepositAddress('ltc');
-const dogeaddr = await coinspot.coinDepositAddress('doge');
-
-for (const network of btcaddr.networks) {
-    console.log(`BTC: ${network.address}`);
-}
-
-for (const network of ethaddr.networks) {
-    console.log(`ETH: ${network.address}`);
-}
-
-for (const network of bchaddr.networks) {
-    console.log(`BCH: ${network.address}`);
-}
-
-for (const network of ltcaddr.networks) {
-    console.log(`LTC: ${network.address}`);
-}
-
-for (const network of dogeaddr.networks) {
-    console.log(`DOGE: ${network.address}`);
-}
+// Get deposit address for Ethereum
+const ethAddress = await coinspot.coinDepositAddress('ETH');
+console.log('ETH deposit address:', ethAddress.networks[0].address);
 ```
 
-<pre>
-<code style="background-color: #0d1117; color: #c9d1d9; padding: 16px; border-radius: 6px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;">
-192-168-1-31:coinspot-v2-api jamesbuchanan$ npm run dev
+### Advanced Usage
 
-> coinspot-v2-api@1.0.0 dev
-> node --loader ts-node/esm --experimental-specifier-resolution=node examples/demo.ts
+The wrapper provides separate classes for different levels of API access:
 
-(node:68905) ExperimentalWarning: `--experimental-loader` may be removed in the future; instead use `register()`:
---import 'data:text/javascript,import { register } from "node:module"; import { pathToFileURL } from "node:url"; register("ts-node/esm", pathToFileURL("./"));'
-(Use `node --trace-warnings ...` to show where the warning was created)
-{
-  status: 'ok',
-  prices: {
-    btc: { bid: '88801', ask: '89481.1', last: '89491.05' },
-    usdt: { bid: '1.490261', ask: '1.497901', last: '1.4979003' },
-    ltc: { bid: '93.83', ask: '96.99', last: '96.99989' },
-    doge: { bid: '0.158488', ask: '0.16027', last: '0.160399' },
-    eth: { bid: '3581.65', ask: '3617.8', last: '3616.82171784' },
-    sol: { bid: '198.24', ask: '205.9', last: '203.92' },
-    powr: { bid: '0.29005', ask: '0.3', last: '0.29994996' },
-    ans: { bid: '13.7', ask: '14.61', last: '14.60899996' },
-    xrp: { bid: '0.84237', ask: '0.85', last: '0.84206316' },
-    trx: { bid: '0.221331', ask: '0.224894', last: '0.225' },
-    eos: { bid: '0.6903', ask: '0.9065', last: '0.6789' },
-    str: { bid: '0.140894', ask: '0.167998', last: '0.144' },
-    rfox: { bid: 'NaN', ask: 'NaN', last: '0.00539896' },
-    gas: { bid: '4.995', ask: '5.005', last: '5.005' },
-    ada: { bid: '0.525353', ask: '0.540065', last: '0.5415' },
-    rhoc: { bid: '0.008005', ask: '0.023498', last: '0.023498' },
-    btc_usdt: { bid: '57210', ask: '61111', last: '58000' }
-  }
-}
-{
-  status: 'ok',
-  prices: { bid: '88801', ask: '89439.31', last: '89491.05' }
-}
-{
-  status: 'ok',
-  prices: { bid: '3581.05', ask: '3617.8', last: '3616.82171784' }
-}
-192-168-1-31:coinspot-v2-api jamesbuchanan$ 
-</code>
-</pre>
+- `CoinspotPublicApi`: For public endpoints (no authentication required)
+- `CoinspotReadOnlyApi`: For read-only authenticated endpoints
+- `CoinspotApi`: For full access authenticated endpoints
+
+You can access these classes directly through the main `Coinspot` instance:
+
+```typescript
+import Coinspot from 'coinspot-v2-api';
+
+const coinspot = new Coinspot(API_KEY, API_SECRET);
+
+// Public API
+const latestPrices = await coinspot.public.getLatestPrices();
+
+// Read-only API
+const myBalances = await coinspot.readOnly.getMyCoinBalances();
+
+// Full access API
+const buyQuote = await coinspot.authenticated.getBuyNowQuote('BTC', 0.1, 'coin');
+```
 
 ## API Documentation
 
-### TODO:
-For detailed API documentation, please refer to the [API Documentation](./docs/API.md) file.
+### Coinspot Class
 
-## Development
+The `Coinspot` class provides a high-level API for common operations:
 
-To set up the project for development:
+- `latestPrices()`: Get latest prices for all coins
+- `latestCoinPrice(coin: string)`: Get latest price for a specific coin
+- `latestBuyPrice(coin: string)`: Get latest buy price for a specific coin
+- `latestSellPrice(coin: string)`: Get latest sell price for a specific coin
+- `openOrderList(coin: string)`: Get open orders for a specific coin
+- `completedOrderList(coin: string)`: Get completed orders for a specific coin
+- `coinBalance(coin: string)`: Get balance for a specific coin
+- `balance()`: Get balances for all coins
+- `coinDepositAddress(coin: string)`: Get deposit address for a specific coin
+- `marketBuyOrder(coin: string, amount: number, rate: number)`: Place a market buy order
+- `marketSellOrder(coin: string, amount: number, rate: number)`: Place a market sell order
+- `buyNowOrder(coin: string, amounttype: string, amount: number, rate?: number, threshold?: number, direction?: string)`: Place a buy now order
+- `sellNowOrder(coin: string, amounttype: string, amount: number, rate?: number, threshold?: number, direction?: string)`: Place a sell now order
+- `swapNow(cointypesell: string, cointypebuy: string, amount: number, rate?: number, threshold?: number, direction?: string)`: Place a swap order
+- ... (other high-level methods)
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/jamesbuch/coinspot-api-v2.git
-   ```
+### CoinspotPublicApi Class
 
-2. Install dependencies:
-   ```
-   npm install
-   ```
+Provides access to public endpoints:
 
-3. Run the test suite:
-   ```
-   npm test
-   ```
+- `getLatestPrices()`: Get latest prices for all coins
+- `getLatestCoinPrice(cointype: string)`: Get latest price for a specific coin
+- `getLatestCoinMarketPrice(cointype: string, markettype: string)`: Get latest price for a specific coin in a specific market
+- `getLatestBuyPrice(cointype: string)`: Get latest buy price for a specific coin
+- `getLatestSellPrice(cointype: string)`: Get latest sell price for a specific coin
+- `getOpenOrders(cointype: string)`: Get open orders for a specific coin
+- `getCompletedOrders(cointype: string)`: Get completed orders for a specific coin
+
+### CoinspotReadOnlyApi Class
+
+Provides access to read-only authenticated endpoints:
+
+- `checkReadOnlyApiStatus()`: Check the status of the API
+- `getMyCoinBalances()`: Get user's coin balances
+- `getMyCoinBalance(cointype: string, available: string)`: Get user's balance for a specific coin
+- `getMyOpenMarketOrders(cointype?: string, markettype?: string)`: Get user's open market orders
+- `getMyOpenLimitOrders(cointype?: string)`: Get user's open limit orders
+- `getMyOrderHistory(cointype?: string, markettype?: string, startdate?: string, enddate?: string, limit?: number)`: Get user's order history
+- `getMySendReceiveHistory(startdate?: string, enddate?: string)`: Get user's send and receive history
+
+### CoinspotApi Class
+
+Provides access to full authenticated endpoints:
+
+- `checkFullAccessApiStatus()`: Check the status of the API
+- `getCoinDepositAddress(cointype: string)`: Get deposit address for a specific coin
+- `getBuyNowQuote(cointype: string, amount: number, amounttype: string)`: Get quote for buying a specific coin
+- `getSellNowQuote(cointype: string, amount: number, amounttype: string)`: Get quote for selling a specific coin
+- `getSwapNowQuote(cointypesell: string, cointypebuy: string, amount: number)`: Get quote for swapping coins
+- `placeMarketBuyOrder(cointype: string, amount: number, rate: number, markettype?: string)`: Place a market buy order
+- `placeMarketSellOrder(cointype: string, amount: number, rate: number, markettype?: string)`: Place a market sell order
+- `placeBuyNowOrder(cointype: string, amounttype: string, amount: number, rate?: number, threshold?: number, direction?: string)`: Place a buy now order
+- `placeSellNowOrder(cointype: string, amounttype: string, amount: number, rate?: number, threshold?: number, direction?: string)`: Place a sell now order
+- `placeSwapNowOrder(cointypesell: string, cointypebuy: string, amount: number, rate?: number, threshold?: number, direction?: string)`: Place a swap now order
+- ... (other authenticated API methods)
+
+## Error Handling
+
+The wrapper provides detailed error responses. Always wrap your API calls in try-catch blocks:
+
+```typescript
+try {
+  const result = await coinspot.someApiMethod();
+  // Handle successful result
+} catch (error) {
+  console.error('API call failed:', error);
+  // Handle error appropriately
+}
+```
 
 ## Testing
 
-This project uses Jest for testing. To run the tests:
+The project includes comprehensive test suites for public, read-only, and authenticated APIs. To run the tests:
 
-```bash
-npm test
-```
+1. Set up your environment variables:
+   - Create a `.env` file in the project root
+   - Add your Coinspot API key and secret:
+     ```
+     COINSPOT_API_KEY=your_api_key
+     COINSPOT_API_SECRET=your_api_secret
+     ```
 
-To run tests with coverage:
+2. Run the tests:
+   ```bash
+   npm test
+   ```
 
-```bash
-npm run test:coverage
-```
+Note: The tests for authenticated APIs will perform actual API calls using your credentials. Ensure you're using a test account or be cautious when running these tests.
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [BSD-3-Clause License](LICENSE).
 
-## Disclaimer
-
-This software is not affiliated with or endorsed by Coinspot. Use at your own risk. The authors and contributors are not responsible for any financial losses or other damages incurred through the use of this software.
-
-## Contact
-
-James Buchanan - 140830722+jamesbuch@users.noreply.github.com
-
-## Donations
-
-If you want to help this and other similar projects, or need a Coinspot or other API SDK in another language,
-like C#.NET, Java, Go, Python or high-performance C++, give me a yell.  I accept donations at:
-
-<span style="color: #f7931a;">₿</span> <pre>1CundHTZwH9t32SjNGCZoWj18qpPAxp9wQ</pre>
-<span style="color: #627eea; font-size: 24px;">Ξ</span> <pre>0x0ba2d032e17f1855abf16091b16cdb8ce3f442b6</pre>
-<span style="color: #8dc351; font-size: 24px;">Ƀ</span> <pre>bitcoincash:qqamhn0rvmn4q5gdvpgxlzxngku7694nmgny5c0ql6</pre>
-<span style="color: #c2a633; font-size: 24px;">Ð</span> <pre>D8hDbe3YX1umuvKKFukKNEhicDA8of5JCR</pre>
-<span style="color: #bfbbbb; font-size: 24px;">Ł</span> <pre>MDfbEPjLVHe9wSVThWHpYBpvbhCc8NbW9V</pre>
-
-### Project Links
-
-[Github](https://github.com/jamesbuch/coinspot-api-v2)
-[Coinspot APIv2 on NPM](https://www.npmjs.com/package/coinspot-v2-api)

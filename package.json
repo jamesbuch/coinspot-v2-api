@@ -1,6 +1,6 @@
 {
     "name": "coinspot-v2-api",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "CoinSpot v2 API https://www.coinspot.com.au/v2/api",
     "homepage": "https://npmjs.com/coinspot-api-v2",
     "keywords": [
@@ -37,7 +37,8 @@
         "package.json"
     ],
     "scripts": {
-        "build": "tsc",
+        "build": "tsc && npm run copy-examples",
+        "copy-examples": "copyfiles -u 1 \"src/examples/**/*\" dist",
         "test": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\", \"target\": \"es2018\" }' mocha -r ts-node/register --parallel 'tests/**/*.ts'",
         "dev": "ts-node src/examples/demo.ts",
         "lint": "eslint .",
@@ -59,6 +60,7 @@
         "@typescript-eslint/eslint-plugin": "8.5.0",
         "@typescript-eslint/parser": "8.5.0",
         "chai": "^4.5.0",
+        "copyfiles": "^2.4.1",
         "dotenv": "^16.4.5",
         "eslint": "^9.10.0",
         "mocha": "^10.7.3",
