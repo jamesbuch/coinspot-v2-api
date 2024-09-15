@@ -9,7 +9,8 @@ export class AuthenticatedCoinspotReadOnlyApi extends CoinspotApiBase {
     // Helper method to get balances in a more usable format
     async getFormattedBalances(): Promise<{ [coin: string]: CoinBalance }> {
         const response = await this.getBalances();
-        return response.balances.reduce((acc, entry) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return response.balances.reduce((acc: any, entry: any | ArrayLike<unknown>) => {
             const [coin, balance] = Object.entries(entry)[0];
             acc[coin] = balance;
             return acc;
