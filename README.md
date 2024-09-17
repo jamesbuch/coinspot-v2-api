@@ -58,7 +58,7 @@ console.log('ETH deposit address:', ethAddress.networks[0].address);
 
 Output:
 
-<code>
+```
 Latest prices: {
   status: 'ok',
   prices: {
@@ -116,7 +116,7 @@ Bitcoin price: {
   prices: { bid: '86487.75', ask: '86790.93', last: '86689.91' }
 }
 ETH deposit address: 0x0ba2d032e17f1855abf16091b16cdb8ce3f442b6
-</code>
+```
 
 To run TypeScript directly, you can run:
 
