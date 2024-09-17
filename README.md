@@ -1,14 +1,16 @@
 # Coinspot V2 API Wrapper
 
-Apologies to everyone who downloaded and tried to use earlier versions!  I had to fix a lot of configuration
-and other problems, and still now there are annoyances such as some values from the API being returned as
-a string when you would expect a number.  Still...
-
 A comprehensive TypeScript wrapper for the Coinspot V2 API, providing easy access to public, read-only, and authenticated endpoints.
 
 TypeScript types are provided in the distribution package, and comprehensive JSDoc comments are included too.
 
 Please also see the test suite for reference.
+
+This package bundles the TypeScript up in `dist/` as CommonJS, and is therefore compatible with most
+projects.  You can find the generated JS code in `node_modules/coinspot-v2-api/dist`.
+
+You can use it with JavaScript or TypeScript, and you can set your package type to "module".
+If you do, as in the examples below, import the named types from coinspot-v2-api.
 
 ## Donations
 
@@ -35,14 +37,12 @@ npm install coinspot-v2-api
 
 ### Basic Usage
 
-```typescript
-import Coinspot from 'coinspot-v2-api';
+```javascript
+import { Coinspot } from 'coinspot-v2-api';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const API_KEY = 'your_api_key';
-const API_SECRET = 'your_api_secret';
-
-const coinspot = new Coinspot(API_KEY, API_SECRET);
-
+const coinspot = new Coinspot(process.env['COINSPOT_API_KEY'], process.env['COINSPOT_API_SECRET']);
 // Get latest prices
 const prices = await coinspot.latestPrices();
 console.log('Latest prices:', prices);
@@ -56,6 +56,137 @@ const ethAddress = await coinspot.coinDepositAddress('ETH');
 console.log('ETH deposit address:', ethAddress.networks[0].address);
 ```
 
+Output:
+
+<code>
+Latest prices: {
+  status: 'ok',
+  prices: {
+    btc: { bid: '86487.75', ask: '86792.95', last: '86689.91' },
+    usdt: { bid: '1.4844', ask: '1.487', last: '1.487' },
+    ltc: { bid: '92.7', ask: '98.99', last: '94.7' },
+    doge: { bid: '0.14863', ask: '0.158363', last: '0.15728225' },
+    eth: { bid: '3395.69', ask: '3458.4', last: '3399.66' },
+    sol: { bid: '195', ask: '196.44', last: '195.8' },
+    powr: { bid: '0.28', ask: '0.29595', last: '0.288' },
+    ans: { bid: '12.17', ask: '14.61', last: '13.7' },
+    xrp: { bid: '0.869351', ask: '0.875', last: '0.87095' },
+    trx: { bid: '0.221616', ask: '0.229777', last: '0.22789' },
+    eos: { bid: '0.6961', ask: '0.9227', last: '0.6789' },
+    str: { bid: '0.140925', ask: '0.167998', last: '0.16609328' },
+    rfox: { bid: 'NaN', ask: 'NaN', last: '0.00539896' },
+    gas: { bid: '4.66', ask: '4.995', last: '4.8' },
+    ada: { bid: '0.490452', ask: '0.500696', last: '0.498' },
+    rhoc: { bid: '0.008005', ask: '0.023498', last: '0.023498' },
+    btc_usdt: { bid: '57210', ask: '60000', last: '58100' }
+  }
+}
+Bitcoin price: {
+  status: 'ok',
+  prices: { bid: '86487.75', ask: '86792.95', last: '86689.91' }
+}
+ETH deposit address: 0x0ba2d032e17f1855abf16091b16cdb8ce3f442b6
+[nodemon] clean exit - waiting for changes before restart
+[nodemon] restarting due to changes...
+[nodemon] starting `node index.js`
+Latest prices: {
+  status: 'ok',
+  prices: {
+    btc: { bid: '86487.75', ask: '86792.95', last: '86689.91' },
+    usdt: { bid: '1.4844', ask: '1.487', last: '1.487' },
+    ltc: { bid: '92.7', ask: '98.99', last: '94.7' },
+    doge: { bid: '0.14863', ask: '0.158363', last: '0.15728225' },
+    eth: { bid: '3395.69', ask: '3458.4', last: '3399.66' },
+    sol: { bid: '195', ask: '196.44', last: '195.8' },
+    powr: { bid: '0.28', ask: '0.29595', last: '0.288' },
+    ans: { bid: '12.17', ask: '14.61', last: '13.7' },
+    xrp: { bid: '0.869351', ask: '0.875', last: '0.87095' },
+    trx: { bid: '0.221616', ask: '0.229777', last: '0.22789' },
+    eos: { bid: '0.6961', ask: '0.9227', last: '0.6789' },
+    str: { bid: '0.140925', ask: '0.167998', last: '0.16609328' },
+    rfox: { bid: 'NaN', ask: 'NaN', last: '0.00539896' },
+    gas: { bid: '4.66', ask: '4.995', last: '4.8' },
+    ada: { bid: '0.490452', ask: '0.500696', last: '0.498' },
+    rhoc: { bid: '0.008005', ask: '0.023498', last: '0.023498' },
+    btc_usdt: { bid: '57210', ask: '60000', last: '58100' }
+  }
+}
+Bitcoin price: {
+  status: 'ok',
+  prices: { bid: '86487.75', ask: '86790.93', last: '86689.91' }
+}
+ETH deposit address: 0x0ba2d032e17f1855abf16091b16cdb8ce3f442b6
+</code>
+
+To run TypeScript directly, you can run:
+
+```bash
+npm install --save-dev ts-node
+node --loader ts-node/esm index.ts
+```
+
+```typescript
+import { CoinDepositAddressResponse, Coinspot, LatestCoinPricesResponse, MyCoinBalanceResponse } from 'coinspot-v2-api';
+import { LatestPricesResponse } from 'coinspot-v2-api';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const coinspot: Coinspot = new Coinspot(process.env['COINSPOT_API_KEY'], process.env['COINSPOT_API_SECRET']);
+
+// Get latest prices
+const prices: LatestPricesResponse = await coinspot.latestPrices();
+if (prices.status == "ok") {
+    for (const key in prices.prices) {
+        console.log(`Coin: ${key}\tLast Price: ${prices.prices[key].last}`);
+    }
+}
+
+// Get Bitcoin price
+const bitcoinPrice: LatestCoinPricesResponse = await coinspot.latestCoinPrice('BTC');
+if (bitcoinPrice.status == "ok") {
+    console.log(`Bitcoin price:\t${bitcoinPrice.prices.last}`);
+}
+
+// Get deposit address for Ethereum
+const ethAddress: CoinDepositAddressResponse = await coinspot.coinDepositAddress('ETH');
+if (ethAddress.status == "ok") {
+    console.log(`ETH Deposit Address: ${ethAddress.networks[0].address}\nNetwork: ${ethAddress.networks[0].network}`);
+}
+
+// Get deposit address for Bitcoin
+const btcAddress: CoinDepositAddressResponse = await coinspot.coinDepositAddress('BTC');
+if (btcAddress.status == "ok") {
+    console.log(`BTC Deposit Address: ${btcAddress.networks[0].address}\nNetwork: ${btcAddress.networks[0].network}`);
+}
+
+// Get deposit address for Bitcoin Cash
+const bchAddress: CoinDepositAddressResponse = await coinspot.coinDepositAddress('BCH');
+if (bchAddress.status == "ok") {
+    console.log(`BCH Deposit Address: ${bchAddress.networks[0].address}\nNetwork: ${bchAddress.networks[0].network}`);
+}
+
+// Get deposit address for Doge
+const dogeAddress: CoinDepositAddressResponse = await coinspot.coinDepositAddress('DOGE');
+if (dogeAddress.status == "ok") {
+    console.log(`DOGE Deposit Address: ${dogeAddress.networks[0].address}\nNetwork: ${dogeAddress.networks[0].network}`);
+}
+
+// DOGE balance in DOGE and AUD
+const dogeBalance: MyCoinBalanceResponse = await coinspot.coinBalance('DOGE');
+if (dogeBalance.status == "ok") {
+    console.log(`DOGE: ${dogeBalance.balance['DOGE']?.balance} AUD: $${dogeBalance.balance['DOGE']?.audbalance}`);
+}
+
+// Non existant coin
+let unknownAddress: CoinDepositAddressResponse;
+try {
+    unknownAddress = await coinspot.coinDepositAddress('INVALIDCOIN');
+}
+catch (err: any) {
+    console.log(`COIN: INVALIDCOIN: Oops: ${err?.message}`);
+}
+```
+
 ### Advanced Usage
 
 The wrapper provides separate classes for different levels of API access:
@@ -67,7 +198,7 @@ The wrapper provides separate classes for different levels of API access:
 You can access these classes directly through the main `Coinspot` instance:
 
 ```typescript
-import Coinspot from 'coinspot-v2-api';
+import { Coinspot } from 'coinspot-v2-api';
 
 const coinspot = new Coinspot(API_KEY, API_SECRET);
 

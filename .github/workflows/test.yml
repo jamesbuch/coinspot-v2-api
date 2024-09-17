@@ -8,6 +8,9 @@ on:
     types: [opened, synchronize, reopened]
     branches:
       - '*'
+    paths-ignore:
+    - '**.md'
+    - 'docs/**'
 
 jobs:
   test:
